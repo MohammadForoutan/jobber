@@ -5,7 +5,7 @@ import { Query } from '@nestjs/graphql';
 import { CreateUserInput } from './dto/create-user.input';
 
 @Resolver(() => User)
-export class UserResolver {
+export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Mutation(() => User, { name: 'createUser' })
