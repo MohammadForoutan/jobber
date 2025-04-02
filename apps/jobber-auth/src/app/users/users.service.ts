@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from './models/user.model';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserInput } from './dto/create-user.input';
+import { Prisma } from '@prisma-clients/jobber-auth';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -17,5 +18,11 @@ export class UsersService {
 
   async getUsers(): Promise<User[]> {
     return this.prismaService.user.findMany();
+  }
+
+  async getUser(args: Prisma.UserWhereUniqueInput): Promise<User> {
+    return this.prismaService.user.findUniqueOrThrow({
+      where: args,
+    });
   }
 }
