@@ -18,6 +18,11 @@ import { AuthModule } from './auth/auth.module';
       // have access to the request and response objects by default.
       context: ({ req, res }) => ({ req, res }),
       autoSchemaFile: true,
+      playground: {
+        settings: {
+          'request.credentials': 'include',
+        },
+      },
     }),
     UsersModule,
     AuthModule,

@@ -3,6 +3,10 @@ import { User } from './models/user.model';
 import { UsersService } from './users.service';
 import { Query } from '@nestjs/graphql';
 import { CreateUserInput } from './dto/create-user.input';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { CurrentUser } from '../auth/current-user.decorator';
+import { TokenPayload } from '../auth/token-payload.interface';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -15,8 +19,10 @@ export class UsersResolver {
     return this.usersService.create(createUserInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => [User], { name: 'users' })
-  async getUsers(): Promise<User[]> {
+  async getUsers(@CurrentUser() data: TokenPayload): Promise<User[]> {
+    console.log('userId', data);
     return this.usersService.getUsers();
   }
 }
